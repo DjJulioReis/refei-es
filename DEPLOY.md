@@ -1,45 +1,41 @@
-# Guia de Deploy no cPanel - Refeições Santa Helena
+# ⚠️ ATENÇÃO: Como publicar seu site no cPanel
 
-Como este é um site construído com React (Vite), você precisará seguir estes passos para colocá-lo no ar usando o seu cPanel:
+Se você subiu os arquivos e não apareceu nada, é porque você subiu o **CÓDIGO FONTE** (arquivos como `src`, `package.json`, `App.jsx`). O servidor (cPanel) não entende esses arquivos.
 
-## 1. Preparar os arquivos
-No seu computador (ou ambiente de desenvolvimento), execute:
-```bash
-npm run build
+O que o cPanel entende são arquivos **HTML, CSS e JS puros**.
+
+### 1. O Formato Correto
+Você precisa gerar a pasta **`dist`**. É dentro dela que estão os arquivos prontos para o seu site.
+
+**O que deve estar dentro da sua pasta `public_html` no cPanel deve ser exatamente isso:**
+```text
+/public_html
+  ├── assets/          (Pasta com CSS e JS compilados)
+  ├── .htaccess        (Arquivo de rotas)
+  ├── favicon.svg      (Ícone)
+  └── index.html       (O arquivo principal)
 ```
-Isso criará uma pasta chamada `dist`. É o conteúdo desta pasta que deve ir para o servidor.
 
-## 2. Enviar para o cPanel
-1. Acesse o seu cPanel.
-2. Abra o **Gerenciador de Arquivos** (File Manager).
-3. Navegue até a pasta `public_html` (ou a pasta do seu domínio).
-4. Clique em **Carregar** (Upload) e envie todos os arquivos e pastas que estão dentro da sua pasta `dist` local.
-   - *Dica: Você pode zipar o conteúdo da pasta `dist`, enviar o arquivo .zip e depois extraí-lo no cPanel.*
+### 2. Passo a Passo para Gerar os Arquivos Certos
 
-## 3. Configurações Necessárias no cPanel
+1. No seu computador, abra o terminal na pasta do projeto.
+2. Digite o comando:
+   ```bash
+   npm run build
+   ```
+3. Uma pasta chamada **`dist`** será criada.
+4. **IMPORTANTE**: Não suba a pasta `dist` inteira. Suba **o que está dentro** dela para o seu `public_html`.
 
-### A. Roteamento (Importante para o React)
-Já incluímos um arquivo chamado `.htaccess` na pasta `public`. Ele garante que, quando você atualizar a página ou acessar um link direto (como `/sobre`), o servidor saiba que deve carregar o `index.html` do React.
-- Certifique-se de que o arquivo `.htaccess` foi enviado para o `public_html`. No Gerenciador de Arquivos, talvez precise habilitar "Mostrar arquivos ocultos" (Settings -> Show Hidden Files).
+---
 
-### B. Versão do Node.js (Opcional)
-Se você for apenas hospedar o site estático (o que recomendamos para este projeto), **não precisa** habilitar o Node.js no cPanel. Basta enviar os arquivos da pasta `dist`.
+### FAQ - Erros Comuns:
 
-Se você pretende rodar o comando de build direto no servidor (mais avançado):
-1. Procure por **"Setup Node.js App"** no cPanel.
-2. Crie uma nova aplicação, escolha a versão mais recente do Node.js (ex: 20 ou 22).
-3. Defina a "Application startup file" como `index.html` (embora para estático isso não seja usado).
+*   **"Subi tudo e vejo uma lista de pastas (src, public, node_modules)":**
+    Você subiu o código fonte. Apague tudo e suba apenas o conteúdo da pasta `dist`.
+*   **"Subi a pasta dist e agora o link é meu-site.com.br/dist/":**
+    Você subiu a pasta em vez do conteúdo. Mova os arquivos de dentro de `dist` para a raiz do seu `public_html`.
+*   **"A página inicial funciona, mas se eu atualizar dá erro 404":**
+    Certifique-se de que o arquivo `.htaccess` que eu criei foi enviado para o servidor. Ele é invisível no computador (começa com ponto), então verifique se ele foi copiado.
 
-## 4. Credenciais do Admin
-Para alterar o usuário e senha do painel administrativo no servidor:
-- Você pode criar um arquivo chamado `.env` na raiz do seu projeto antes de fazer o build, com o seguinte conteúdo:
-```env
-VITE_ADMIN_USER=seu_usuario
-VITE_ADMIN_PASSWORD=sua_senha_segura
-```
-- Depois, execute `npm run build` novamente e envie os arquivos atualizados.
-
-## 5. Resumo do que "Habilitar"
-1. **Domínio/Subdomínio**: Certifique-se de que o domínio está apontando para a pasta correta.
-2. **Certificado SSL**: No cPanel, procure por **"LetsEncrypt SSL"** ou **"AutoSSL"** e garanta que o site esteja rodando em `https://`.
-3. **MIME Types**: Geralmente o cPanel já reconhece arquivos `.js` e `.css`, mas se o site não carregar os estilos, verifique se os MIME types estão corretos.
+### Como eu posso te ajudar agora?
+Se você não tem o Node.js instalado no seu computador para rodar o comando `npm run build`, me avise. Eu já deixei o projeto configurado, mas para o cPanel, o passo final é sempre gerar esse "build".

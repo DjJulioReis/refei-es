@@ -43,8 +43,9 @@ function render_header($title = "Refeições Santa Helena") {
                         <a href="<?php echo $base_path; ?>about.php" class="hover:text-gray-200">Sobre</a>
                         <a href="<?php echo $base_path; ?>contact.php" class="hover:text-gray-200">Contato</a>
                         <?php if (isset($_SESSION['admin_id'])): ?>
-                            <a href="<?php echo $base_path; ?>admin/index.php" class="bg-white text-primary px-4 py-2 rounded-lg font-bold">Painel</a>
-                            <a href="<?php echo $base_path; ?>admin/logout.php" class="text-red-300">Sair</a>
+                            <a href="<?php echo $base_path; ?>admin/index.php" class="hover:text-gray-200">Produtos</a>
+                            <a href="<?php echo $base_path; ?>admin/users.php" class="hover:text-gray-200">Usuários</a>
+                            <a href="<?php echo $base_path; ?>admin/logout.php" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-bold">Sair</a>
                         <?php else: ?>
                             <a href="<?php echo $base_path; ?>admin/login.php" class="text-sm opacity-80 hover:opacity-100">Login Admin</a>
                         <?php endif; ?>
